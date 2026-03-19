@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Дякуємо за заявку</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      .thank-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+          max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+      }
+      .thank-card {
+        width: 100%;
+        max-width: 440px;
+        padding: 36px 28px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.75);
+        border: 1px solid rgba(166, 124, 82, 0.28);
+        border-radius: 20px;
+        box-shadow: 0 14px 40px rgba(76, 76, 76, 0.1);
+      }
+      .thank-card h1 {
+        margin: 0 0 14px;
+        font-size: clamp(24px, 5vw, 30px);
+        font-weight: 700;
+        color: #2b2b2b;
+        line-height: 1.25;
+      }
+      .thank-card p {
+        margin: 0 0 24px;
+        font-size: 17px;
+        line-height: 1.55;
+        color: #555555;
+      }
+      .thank-card .cta-btn {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="thank-page">
+      <div class="thank-card">
+        <h1>Дякуємо!</h1>
+        <p>
+          Вашу заявку надіслано. Майстер отримає сповіщення в Telegram і зможе з вами
+          зв’язатися.
+        </p>
+        <a class="cta-btn" href="./index.html">На головну</a>
+      </div>
+    </div>
+  </body>
+</html>

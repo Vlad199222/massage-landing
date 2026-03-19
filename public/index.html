@@ -2,27 +2,56 @@
 <html lang="uk">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <title>Послуги масажиста</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <header class="top-bar">
-      <nav class="top-nav" aria-label="Головна навігація">
-        <a href="#home">Головна</a>
-        <a href="#certificates">Сертифікати</a>
-        <a href="#prices">Ціни</a>
-        <a href="#services">Послуги</a>
-        <a href="#gallery">Фотогалерея</a>
-      </nav>
-      <div class="top-contact">
-        <div class="phone-row">
-          <a class="phone-btn" href="tel:+380636316252">Подзвонити</a>
-          <span class="phone-number">📞 +380 63 631 62 52</span>
+      <div class="top-bar__inner">
+        <button
+          type="button"
+          class="burger-btn"
+          id="burger-btn"
+          aria-expanded="false"
+          aria-controls="primary-navigation"
+          aria-label="Відкрити меню навігації"
+        >
+          <span class="burger-btn__bars" aria-hidden="true">
+            <span class="burger-btn__bar"></span>
+            <span class="burger-btn__bar"></span>
+            <span class="burger-btn__bar"></span>
+          </span>
+        </button>
+        <nav
+          id="primary-navigation"
+          class="top-nav"
+          aria-label="Головна навігація"
+        >
+          <a href="#home">Головна</a>
+          <a href="#certificates">Сертифікати</a>
+          <a href="#prices">Ціни</a>
+          <a href="#services">Послуги</a>
+          <a href="#gallery">Фотогалерея</a>
+        </nav>
+        <div class="top-contact">
+          <div class="phone-row">
+            <a class="phone-btn" href="tel:+380636316252">Подзвонити</a>
+            <span class="phone-number">📞 +380 63 631 62 52</span>
+          </div>
+          <p class="address-text">м. Вінниця, Ющенка 16</p>
         </div>
-        <p class="address-text">м. Вінниця, Ющенка 16</p>
       </div>
     </header>
+    <div
+      class="nav-backdrop"
+      id="nav-backdrop"
+      hidden
+      aria-hidden="true"
+    ></div>
 
     <div class="page-with-rail">
     <main class="page-with-rail__main">
@@ -40,7 +69,9 @@
           <div class="hero-text">
             <h1>Позбудься болю в спині вже сьогодні</h1>
             <p>Масаж та іглотерапія у Вінниці для відновлення та комфорту</p>
-            <a class="cta-btn" href="tel:+380636316252">Записатися зараз</a>
+            <button type="button" class="cta-btn js-open-booking">
+              Записатися зараз
+            </button>
           </div>
         </div>
       </section>
@@ -268,8 +299,68 @@
           <h3 id="service-modal-title" class="service-modal__title"></h3>
           <p class="service-modal__text"></p>
           <p class="service-modal__tagline">Ефект вже після першого сеансу</p>
-          <a class="service-modal__cta cta-btn" href="tel:+380636316252">Записатися</a>
+          <button type="button" class="service-modal__cta cta-btn js-open-booking">
+            Записатися
+          </button>
         </div>
+      </div>
+    </div>
+
+    <div
+      id="booking-modal"
+      class="booking-modal"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="booking-modal-title"
+    >
+      <div class="booking-modal__backdrop" data-booking-close tabindex="-1"></div>
+      <div class="booking-modal__panel">
+        <button
+          type="button"
+          class="booking-modal__close"
+          data-booking-close
+          aria-label="Закрити"
+        >
+          ×
+        </button>
+        <h2 id="booking-modal-title" class="booking-modal__title">Запис на масаж</h2>
+        <p class="booking-modal__intro">
+          Вкажіть ім’я та телефон — заявку буде надіслано майстру, після чого відкриється
+          сторінка подяки.
+        </p>
+        <form id="booking-form" class="booking-form" novalidate>
+          <div class="booking-form__group">
+            <label class="booking-form__label" for="booking-name">Ім’я</label>
+            <input
+              class="booking-form__input"
+              id="booking-name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              maxlength="80"
+              placeholder="Наприклад, Олена"
+            />
+            <p class="booking-form__error" id="booking-name-error" hidden role="alert"></p>
+          </div>
+          <div class="booking-form__group">
+            <label class="booking-form__label" for="booking-phone">Номер телефону</label>
+            <input
+              class="booking-form__input"
+              id="booking-phone"
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+              inputmode="tel"
+              placeholder="+380 63 631 62 52"
+            />
+            <p class="booking-form__error" id="booking-phone-error" hidden role="alert"></p>
+          </div>
+          <p class="booking-form__server-error" id="booking-server-error" hidden role="alert"></p>
+          <button type="submit" class="booking-form__submit cta-btn">
+            Надіслати
+          </button>
+        </form>
       </div>
     </div>
 

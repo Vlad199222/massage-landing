@@ -1,4 +1,48 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const MOBILE_NAV_MAX = 768;
+
+  const siteHeader = document.querySelector(".top-bar");
+  const burgerBtn = document.getElementById("burger-btn");
+  const primaryNav = document.getElementById("primary-navigation");
+  const navBackdrop = document.getElementById("nav-backdrop");
+
+  function setNavMenuOpen(open) {
+    if (!siteHeader || !burgerBtn) return;
+    siteHeader.classList.toggle("nav-open", open);
+    burgerBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    burgerBtn.setAttribute(
+      "aria-label",
+      open ? "Закрити меню навігації" : "Відкрити меню навігації"
+    );
+    if (navBackdrop) {
+      navBackdrop.hidden = !open;
+      navBackdrop.setAttribute("aria-hidden", open ? "false" : "true");
+    }
+    document.body.classList.toggle("nav-menu-open", open);
+  }
+
+  function closeNavMenu() {
+    setNavMenuOpen(false);
+  }
+
+  if (burgerBtn && primaryNav && siteHeader) {
+    burgerBtn.addEventListener("click", () => {
+      setNavMenuOpen(!siteHeader.classList.contains("nav-open"));
+    });
+
+    primaryNav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        if (window.innerWidth <= MOBILE_NAV_MAX) closeNavMenu();
+      });
+    });
+
+    navBackdrop?.addEventListener("click", closeNavMenu);
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > MOBILE_NAV_MAX) closeNavMenu();
+    });
+  }
+
   const speechBubble = document.querySelector(".speech-bubble");
 
   if (speechBubble) {
@@ -53,71 +97,237 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const modal = document.getElementById("service-modal");
-  if (!modal) return;
 
-  const modalImg = modal.querySelector(".service-modal__img");
-  const modalTitle = modal.querySelector(".service-modal__title");
-  const modalText = modal.querySelector(".service-modal__text");
-  const closeEls = modal.querySelectorAll("[data-modal-close]");
+  /** Закриття модалки послуги; підміняється, коли #service-modal є в DOM */
+  let closeServiceModal = () => {};
 
-  let lastFocus = null;
+  const bookingModal = document.getElementById("booking-modal");
+  const bookingForm = document.getElementById("booking-form");
+  const nameInput = document.getElementById("booking-name");
+  const phoneInput = document.getElementById("booking-phone");
+  const nameErrorEl = document.getElementById("booking-name-error");
+  const phoneErrorEl = document.getElementById("booking-phone-error");
+  const bookingServerErrorEl = document.getElementById("booking-server-error");
 
-  function openServiceModal(key) {
-    const data = SERVICE_CONTENT[key];
-    if (!data) return;
+  let bookingLastFocus = null;
 
-    lastFocus = document.activeElement;
-
-    modalImg.src = data.img;
-    modalImg.alt = data.title;
-    modalTitle.textContent = data.title;
-    modalText.textContent = data.text;
-
-    modal.hidden = false;
-    document.body.classList.add("modal-open");
-
-    const closeBtn = modal.querySelector(".service-modal__close");
-    if (closeBtn) closeBtn.focus();
+  function isBookingOpen() {
+    return Boolean(bookingModal && !bookingModal.hidden);
   }
 
-  function closeServiceModal() {
-    modal.hidden = true;
-    document.body.classList.remove("modal-open");
-    modalImg.src = "";
-    modalImg.alt = "";
-
-    if (lastFocus && typeof lastFocus.focus === "function") {
-      lastFocus.focus();
+  function clearBookingFieldErrors() {
+    if (nameErrorEl) {
+      nameErrorEl.hidden = true;
+      nameErrorEl.textContent = "";
     }
+    if (phoneErrorEl) {
+      phoneErrorEl.hidden = true;
+      phoneErrorEl.textContent = "";
+    }
+    if (bookingServerErrorEl) {
+      bookingServerErrorEl.hidden = true;
+      bookingServerErrorEl.textContent = "";
+    }
+    nameInput?.classList.remove("booking-form__input--invalid");
+    phoneInput?.classList.remove("booking-form__input--invalid");
   }
 
-  document.querySelectorAll(".service-card").forEach((card) => {
-    const open = (e) => {
-      if (e.target.closest(".service-btn")) {
-        e.preventDefault();
+  function closeBookingModal() {
+    if (!bookingModal || !bookingForm) return;
+    bookingModal.hidden = true;
+    clearBookingFieldErrors();
+    bookingForm.reset();
+    if (!modal || modal.hidden) {
+      document.body.classList.remove("modal-open");
+    }
+    if (bookingLastFocus && typeof bookingLastFocus.focus === "function") {
+      bookingLastFocus.focus();
+    }
+    bookingLastFocus = null;
+  }
+
+  function openBookingModal() {
+    if (!bookingModal || !bookingForm) return;
+    closeNavMenu();
+    closeServiceModal();
+    bookingLastFocus = document.activeElement;
+    clearBookingFieldErrors();
+    bookingForm.reset();
+    bookingModal.hidden = false;
+    document.body.classList.add("modal-open");
+    nameInput?.focus();
+  }
+
+  function countPhoneDigits(phone) {
+    return (phone || "").replace(/\D/g, "").length;
+  }
+
+  function validateBookingForm() {
+    clearBookingFieldErrors();
+    let ok = true;
+    const name = (nameInput?.value || "").trim();
+    if (name.length < 2) {
+      if (nameErrorEl) {
+        nameErrorEl.textContent = "Введіть ім’я (щонайменше 2 літери).";
+        nameErrorEl.hidden = false;
       }
-      const key = card.getAttribute("data-service");
-      if (key) openServiceModal(key);
+      nameInput?.classList.add("booking-form__input--invalid");
+      ok = false;
+    }
+    const phone = phoneInput?.value || "";
+    if (countPhoneDigits(phone) < 10) {
+      if (phoneErrorEl) {
+        phoneErrorEl.textContent = "Введіть коректний номер (наприклад, +380 …).";
+        phoneErrorEl.hidden = false;
+      }
+      phoneInput?.classList.add("booking-form__input--invalid");
+      ok = false;
+    }
+    return ok;
+  }
+
+  document.querySelectorAll(".js-open-booking").forEach((btn) => {
+    btn.addEventListener("click", () => openBookingModal());
+  });
+
+  bookingModal?.querySelectorAll("[data-booking-close]").forEach((el) => {
+    el.addEventListener("click", closeBookingModal);
+  });
+
+  bookingForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!nameInput || !phoneInput || !bookingForm) return;
+    if (!validateBookingForm()) return;
+
+    const submitBtn = bookingForm.querySelector('button[type="submit"]');
+    const prevLabel = submitBtn ? submitBtn.textContent : "";
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Надсилаємо…";
+    }
+
+    const name = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
+
+    try {
+      const res = await fetch("/api/booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=UTF-8" },
+        body: JSON.stringify({ name, phone })
+      });
+      let data = {};
+      try {
+        data = await res.json();
+      } catch {
+        /* ignore */
+      }
+
+      if (!res.ok || !data.ok) {
+        const msg =
+          (data && data.error) ||
+          (res.status === 503
+            ? "Заявки тимчасово недоступні. Зателефонуйте або напишіть у месенджер."
+            : "Не вдалося надіслати. Спробуйте ще раз.");
+        if (bookingServerErrorEl) {
+          bookingServerErrorEl.textContent = msg;
+          bookingServerErrorEl.hidden = false;
+        }
+        return;
+      }
+
+      window.location.href = "./thank-you.html";
+    } catch {
+      if (bookingServerErrorEl) {
+        bookingServerErrorEl.textContent =
+          "Немає зв’язку з сервером. Перевірте інтернет або зателефонуйте.";
+        bookingServerErrorEl.hidden = false;
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = prevLabel || "Надіслати";
+      }
+    }
+  });
+
+  if (modal) {
+    const modalImg = modal.querySelector(".service-modal__img");
+    const modalTitle = modal.querySelector(".service-modal__title");
+    const modalText = modal.querySelector(".service-modal__text");
+    const closeEls = modal.querySelectorAll("[data-modal-close]");
+
+    let lastFocus = null;
+
+    function openServiceModal(key) {
+      const data = SERVICE_CONTENT[key];
+      if (!data) return;
+
+      closeBookingModal();
+      closeNavMenu();
+
+      lastFocus = document.activeElement;
+
+      modalImg.src = data.img;
+      modalImg.alt = data.title;
+      modalTitle.textContent = data.title;
+      modalText.textContent = data.text;
+
+      modal.hidden = false;
+      document.body.classList.add("modal-open");
+
+      const closeBtn = modal.querySelector(".service-modal__close");
+      if (closeBtn) closeBtn.focus();
+    }
+
+    closeServiceModal = function closeServiceModalImpl() {
+      modal.hidden = true;
+      modalImg.src = "";
+      modalImg.alt = "";
+      if (!isBookingOpen()) {
+        document.body.classList.remove("modal-open");
+      }
+      if (lastFocus && typeof lastFocus.focus === "function") {
+        lastFocus.focus();
+      }
     };
 
-    card.addEventListener("click", open);
-
-    card.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
+    document.querySelectorAll(".service-card").forEach((card) => {
+      const open = (e) => {
+        if (e.target.closest(".service-btn")) {
+          e.preventDefault();
+        }
         const key = card.getAttribute("data-service");
         if (key) openServiceModal(key);
-      }
-    });
-  });
+      };
 
-  closeEls.forEach((el) => {
-    el.addEventListener("click", closeServiceModal);
-  });
+      card.addEventListener("click", open);
+
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          const key = card.getAttribute("data-service");
+          if (key) openServiceModal(key);
+        }
+      });
+    });
+
+    closeEls.forEach((el) => {
+      el.addEventListener("click", closeServiceModal);
+    });
+  }
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.hidden) {
+    if (e.key !== "Escape") return;
+    if (isBookingOpen()) {
+      closeBookingModal();
+      return;
+    }
+    if (modal && !modal.hidden) {
       closeServiceModal();
+      return;
+    }
+    if (siteHeader?.classList.contains("nav-open")) {
+      closeNavMenu();
     }
   });
 

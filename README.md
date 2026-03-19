@@ -14,7 +14,9 @@ npm start
 
 ## Структура
 
-- `server.js` — сервер
+- `server.js` — локальний HTTP-сервер (`npm start`)
+- `api/booking.js` — **Vercel** Serverless для `POST /api/booking`
+- `lib/booking-logic.js` — спільна логіка заявки + Telegram
 - `public/` — HTML, CSS, JS, зображення
 
 ## GitHub
@@ -46,4 +48,33 @@ git push -u origin main
 4. У сервісі: **Settings** → **Networking** → **Generate Domain**.
 5. Відкрий виданий URL — це твій лендінг.
 
-Логи: **Deployments** → **View logs**. Додаткові env-змінні не потрібні.
+Логи: **Deployments** → **View logs**.
+
+### Заявки з форми «Записатися» → Telegram-бот
+
+1. У Telegram напиши **@BotFather** → `/newbot` → збережи **токен** бота.
+2. Знайди **свій chat_id**: напиши своєму боту будь-яке повідомлення, потім відкрий у браузері  
+   `https://api.telegram.org/bot<ТВІЙ_ТОКЕН>/getUpdates` — у відповіді шукай `"chat":{"id": ...` (це `TELEGRAM_CHAT_ID`).
+3. Локально (PowerShell):
+
+   ```powershell
+   $env:TELEGRAM_BOT_TOKEN="твій_токен"
+   $env:TELEGRAM_CHAT_ID="твій_chat_id"
+   npm start
+   ```
+
+4. На **Railway**: **Variables** → додай `TELEGRAM_BOT_TOKEN` і `TELEGRAM_CHAT_ID` → redeploy.
+
+Після успішної відправки користувач потрапляє на **`/thank-you.html`**, а ти бачиш заявку в **чаті з ботом** (те, що вказано в `TELEGRAM_CHAT_ID` — зазвичай твій особистий чат з ботом). Приклад змінних — у файлі `.env.example`.
+
+## Деплой на [Vercel](https://vercel.com)
+
+На Vercel **не виконується** довготривалий `server.js`. Сайт з `public/` роздається як статика, а **`POST /api/booking`** обробляє файл **`api/booking.js`**.
+
+1. Імпорт репозиторію в Vercel (корінь репо — **не** вказуй Root Directory = `public`, інакше зникне `/api`).
+2. **Settings** → **Environment Variables** (для Production / Preview за потреби):
+   - `TELEGRAM_BOT_TOKEN`
+   - `TELEGRAM_CHAT_ID` (наприклад `-5298193940` для групи)
+3. **Redeploy** після змін змінних.
+
+Перевірка: відкрий сайт, відправ форму — у вкладці **Vercel** → проєкт → **Functions** / **Logs** мають бути без 503; у Telegram приходить повідомлення.
