@@ -223,11 +223,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (!res.ok || !data.ok) {
-        const msg =
+        let msg =
           (data && data.error) ||
           (res.status === 503
             ? "Заявки тимчасово недоступні. Зателефонуйте або напишіть у месенджер."
             : "Не вдалося надіслати. Спробуйте ще раз.");
+        if (data && data.hint) {
+          msg += ` Деталь: ${data.hint}`;
+        }
         if (bookingServerErrorEl) {
           bookingServerErrorEl.textContent = msg;
           bookingServerErrorEl.hidden = false;
