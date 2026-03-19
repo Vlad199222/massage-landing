@@ -1,0 +1,19 @@
+# Залежності
+node_modules/
+
+# Логи та тимчасові файли
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Секрети (якщо з’являться)
+.env
+.env.local
+*.pem
+
+# Редактори / IDE
+.idea/
+.vscode/
+*.swp
+*.swo

@@ -1,0 +1,10 @@
+{
+  "name": "massage-landing",
+  "version": "1.0.0",
+  "description": "Landing page for massage services",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT"
+}
