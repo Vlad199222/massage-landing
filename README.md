@@ -19,10 +19,21 @@ npm start
 
 ## GitHub
 
-Після створення порожнього репозиторію на GitHub:
+1. Створи **порожній** репозиторій на GitHub (без README), наприклад назва: `massage-landing`.
+2. У терміналі в папці проєкту:
 
 ```bash
-git remote add origin https://github.com/ТВІЙ_НІК/НАЗВА_РЕПО.git
+git remote add origin https://github.com/Vlad199222/massage-landing.git
 git branch -M main
+git push -u origin main
+```
+
+Якщо репозиторій назвав інакше — заміни `massage-landing` у URL на свою назву.
+
+Якщо `remote` уже додавався з помилкою:
+
+```bash
+git remote remove origin
+git remote add origin https://github.com/Vlad199222/ТВОЯ_НАЗВА.git
 git push -u origin main
 ```
