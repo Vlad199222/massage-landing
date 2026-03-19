@@ -37,3 +37,13 @@ git remote remove origin
 git remote add origin https://github.com/Vlad199222/ТВОЯ_НАЗВА.git
 git push -u origin main
 ```
+
+## Деплой на [Railway](https://railway.app)
+
+1. Увійди на Railway через **GitHub**.
+2. **New project** → **Deploy from GitHub repo** → обери `massage-landing`.
+3. Railway збере проєкт і запустить **`npm start`**. Змінна **`PORT`** задається автоматично.
+4. У сервісі: **Settings** → **Networking** → **Generate Domain**.
+5. Відкрий виданий URL — це твій лендінг.
+
+Логи: **Deployments** → **View logs**. Додаткові env-змінні не потрібні.
