@@ -7,6 +7,9 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <title>Послуги масажиста</title>
+    <!-- Ранній preload CSS зменшує ланцюжок HTML → stylesheet у Lighthouse -->
+    <link rel="preload" href="./styles.css" as="style" />
+    <link rel="stylesheet" href="./styles.css" />
     <link
       rel="preload"
       as="image"
@@ -14,7 +17,6 @@
       type="image/webp"
       fetchpriority="high"
     />
-    <link rel="stylesheet" href="./styles.css" />
     <script src="./script.js" defer></script>
   </head>
   <body>

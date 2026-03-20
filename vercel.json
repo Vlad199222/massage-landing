@@ -1,0 +1,22 @@
+{
+  "headers": [
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</styles.css>; rel=preload; as=style, </images/massage-therapist.webp>; rel=preload; as=image; type=image/webp"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</styles.css>; rel=preload; as=style, </images/massage-therapist.webp>; rel=preload; as=image; type=image/webp"
+        }
+      ]
+    }
+  ]
+}
