@@ -926,6 +926,39 @@ body.lightbox-open {
   max-width: 640px;
 }
 
+.site-footer__contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  flex: 0 0 auto;
+}
+
+.site-footer__contact {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.site-footer__contact--phone {
+  text-decoration: none;
+  color: var(--button-main);
+  font-weight: 700;
+}
+
+.site-footer__contact--phone:hover,
+.site-footer__contact--phone:focus-visible {
+  color: var(--button-main-hover);
+  text-decoration: underline;
+}
+
+.site-footer__contact--address {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
 .site-footer__nav {
   display: flex;
   flex-wrap: wrap;
@@ -956,6 +989,11 @@ body.lightbox-open {
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.site-footer__contacts--center {
+  text-align: center;
+  align-items: center;
 }
 
 .site-footer--thank {
