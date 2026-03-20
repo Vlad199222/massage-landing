@@ -4,13 +4,17 @@
   "description": "Landing page for massage services",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "images:webp": "node scripts/make-webp.mjs"
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
     "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.5"
   },
   "license": "MIT"
 }

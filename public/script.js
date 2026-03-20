@@ -89,40 +89,51 @@ document.addEventListener("DOMContentLoaded", () => {
     let messageIndex = 0;
     speechBubble.textContent = bubbleMessages[messageIndex];
 
-    setInterval(() => {
-      messageIndex = (messageIndex + 1) % bubbleMessages.length;
-      speechBubble.textContent = bubbleMessages[messageIndex];
-    }, 2200);
+    /* Після LCP: не змінюємо текст одразу — менше layout під час першого малювання */
+    function startBubbleRotation() {
+      window.setInterval(() => {
+        messageIndex = (messageIndex + 1) % bubbleMessages.length;
+        speechBubble.textContent = bubbleMessages[messageIndex];
+      }, 2200);
+    }
+
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(() => startBubbleRotation(), { timeout: 4000 });
+    } else {
+      window.addEventListener("load", () => {
+        window.setTimeout(startBubbleRotation, 2500);
+      });
+    }
   }
 
   const SERVICE_CONTENT = {
     general: {
       title: "Загальний масаж",
-      img: "./images/services/service-1.png",
+      img: "./images/services/service-1.webp",
       text:
         "Загальний масаж допомагає розслабити м’язи, зняти напругу та покращити кровообіг. Ідеально підходить після важкого дня або для загального відновлення організму."
     },
     lymphatic: {
       title: "Лімфодренажний масаж",
-      img: "./images/services/service-2.png",
+      img: "./images/services/service-2.webp",
       text:
         "Лімфодренажний масаж стимулює відтік рідини, зменшує набряки та покращує обмін речовин. Допомагає очистити організм і повернути легкість у тілі."
     },
     "anti-cellulite": {
       title: "Антицелюлітний масаж",
-      img: "./images/services/service-3.png",
+      img: "./images/services/service-3.webp",
       text:
         "Антицелюлітний масаж спрямований на покращення мікроциркуляції та тонусу шкіри у проблемних зонах, підтримує контур тіла та допомагає зробити шкіру більш рівною. Рекомендується курсами для стійкого результату."
     },
     acupuncture: {
       title: "Голкотерапія",
-      img: "./images/services/service-4.png",
+      img: "./images/services/service-4.webp",
       text:
         "Голкотерапія — ефективний метод для зняття болю, напруги та відновлення роботи організму. Впливає на активні точки, покращує самопочуття та запускає природні процеси відновлення."
     },
     "back-manual": {
       title: "Масаж спини з мануальною технікою",
-      img: "./images/services/service-5.png",
+      img: "./images/services/service-5.webp",
       text:
         "Масаж спини з мануальною технікою допомагає зняти біль, затиски та напругу в м’язах. Глибокий вплив на проблемні зони дозволяє швидко відчути полегшення та відновити рухливість."
     }
@@ -302,6 +313,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       lastFocus = document.activeElement;
 
+      modalImg.loading = "eager";
       modalImg.src = data.img;
       modalImg.alt = data.title;
       modalTitle.textContent = data.title;
@@ -318,6 +330,7 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.hidden = true;
       modalImg.src = "";
       modalImg.alt = "";
+      modalImg.loading = "lazy";
       if (!isBookingOpen()) {
         document.body.classList.remove("modal-open");
       }
@@ -377,6 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!galleryLightbox || !galleryLightboxImg) return;
     galleryLightbox.hidden = true;
     galleryLightboxImg.removeAttribute("src");
+    galleryLightboxImg.loading = "lazy";
     galleryLightboxImg.alt = "";
     if (galleryLightboxCaption) {
       galleryLightboxCaption.textContent = "";

@@ -7,7 +7,15 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <title>Послуги масажиста</title>
+    <link
+      rel="preload"
+      as="image"
+      href="./images/massage-therapist.webp"
+      type="image/webp"
+      fetchpriority="high"
+    />
     <link rel="stylesheet" href="./styles.css" />
+    <script src="./script.js" defer></script>
   </head>
   <body>
     <header class="top-bar">
@@ -33,8 +41,8 @@
         >
           <a href="#home">Головна</a>
           <a href="#services">Послуги</a>
+          <a href="#prices">Прайс-лист</a>
           <a href="#gallery">Фотогалерея</a>
-          <a href="#callback">Дзвінок</a>
         </nav>
         <div class="top-contact">
           <div class="phone-row">
@@ -57,11 +65,22 @@
       <section id="home" class="hero">
         <div class="hero-content">
           <div class="hero-visual">
-            <img
-              class="therapist-image"
-              src="./images/massage-therapist.png"
-              alt="Фото масажиста"
-            />
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./images/massage-therapist.webp"
+              />
+              <img
+                class="therapist-image"
+                src="./images/massage-therapist.png"
+                alt="Фото масажиста"
+                width="433"
+                height="577"
+                fetchpriority="high"
+                loading="eager"
+                decoding="async"
+              />
+            </picture>
             <div class="speech-bubble">Потрібен масаж?</div>
           </div>
 
@@ -81,7 +100,20 @@
           <div class="services-grid">
             <article class="service-card" data-service="general" tabindex="0" role="button">
               <div class="service-card-media">
-                <img src="./images/services/service-1.png" alt="Загальний масаж" />
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcset="./images/services/service-1.webp"
+                  />
+                  <img
+                    src="./images/services/service-1.png"
+                    alt="Загальний масаж"
+                    width="568"
+                    height="378"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
               </div>
               <h3>Загальний масаж</h3>
               <p class="service-price">800 грн</p>
@@ -92,10 +124,20 @@
 
             <article class="service-card" data-service="lymphatic" tabindex="0" role="button">
               <div class="service-card-media">
-                <img
-                  src="./images/services/service-2.png"
-                  alt="Лімфодренажний масаж"
-                />
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcset="./images/services/service-2.webp"
+                  />
+                  <img
+                    src="./images/services/service-2.png"
+                    alt="Лімфодренажний масаж"
+                    width="1024"
+                    height="682"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
               </div>
               <h3>Лімфодренажний масаж</h3>
               <p class="service-price">800 грн</p>
@@ -106,10 +148,20 @@
 
             <article class="service-card" data-service="anti-cellulite" tabindex="0" role="button">
               <div class="service-card-media">
-                <img
-                  src="./images/services/service-3.png"
-                  alt="Антицелюлітний масаж"
-                />
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcset="./images/services/service-3.webp"
+                  />
+                  <img
+                    src="./images/services/service-3.png"
+                    alt="Антицелюлітний масаж"
+                    width="1024"
+                    height="554"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
               </div>
               <h3>Антицелюлітний масаж</h3>
               <p class="service-price">800 грн</p>
@@ -120,7 +172,20 @@
 
             <article class="service-card" data-service="acupuncture" tabindex="0" role="button">
               <div class="service-card-media">
-                <img src="./images/services/service-4.png" alt="Голкотерапія" />
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcset="./images/services/service-4.webp"
+                  />
+                  <img
+                    src="./images/services/service-4.png"
+                    alt="Голкотерапія"
+                    width="1024"
+                    height="682"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
               </div>
               <h3>Голкотерапія</h3>
               <p class="service-price">1000 грн</p>
@@ -131,10 +196,20 @@
 
             <article class="service-card" data-service="back-manual" tabindex="0" role="button">
               <div class="service-card-media">
-                <img
-                  src="./images/services/service-5.png"
-                  alt="Масаж спини з мануальною технікою"
-                />
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcset="./images/services/service-5.webp"
+                  />
+                  <img
+                    src="./images/services/service-5.png"
+                    alt="Масаж спини з мануальною технікою"
+                    width="1024"
+                    height="683"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
               </div>
               <h3>Масаж спини з мануальною технікою</h3>
               <p class="service-price">600 грн</p>
@@ -143,6 +218,45 @@
               </div>
             </article>
           </div>
+        </div>
+      </section>
+
+      <section id="prices" class="pricelist-section" aria-labelledby="prices-title">
+        <div class="section-container">
+          <h2 id="prices-title">Прайс-лист</h2>
+          <p class="pricelist-intro">
+            Усі послуги та вартість у гривнях. Точну ціну уточнюйте при записі.
+          </p>
+          <ul class="pricelist">
+            <li>
+              <span class="pricelist__name">Загальний масаж</span>
+              <span class="pricelist__price">800 грн</span>
+            </li>
+            <li>
+              <span class="pricelist__name">Лімфодренажний масаж</span>
+              <span class="pricelist__price">800 грн</span>
+            </li>
+            <li>
+              <span class="pricelist__name">Антицелюлітний масаж</span>
+              <span class="pricelist__price">800 грн</span>
+            </li>
+            <li>
+              <span class="pricelist__name">Голкотерапія</span>
+              <span class="pricelist__price">1000 грн</span>
+            </li>
+            <li>
+              <span class="pricelist__name">Масаж спини з мануальною технікою</span>
+              <span class="pricelist__price">600 грн</span>
+            </li>
+            <li>
+              <span class="pricelist__name">Розклад харчування</span>
+              <span class="pricelist__price">500 грн</span>
+            </li>
+            <li>
+              <span class="pricelist__name">Блокування апетиту (голкотерапія)</span>
+              <span class="pricelist__price">400 грн</span>
+            </li>
+          </ul>
         </div>
       </section>
 
@@ -159,11 +273,20 @@
               role="button"
               aria-label="Відкрити фото збільшеним"
             >
-              <img
-                src="./images/gallery/massage-session-1.png"
-                alt="Масаж спини у кабінеті"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="./images/gallery/massage-session-1.webp"
+                />
+                <img
+                  src="./images/gallery/massage-session-1.png"
+                  alt="Масаж спини у кабінеті"
+                  width="648"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <div
               class="gallery-item gallery-item--zoomable"
@@ -171,11 +294,20 @@
               role="button"
               aria-label="Відкрити фото збільшеним"
             >
-              <img
-                src="./images/gallery/massage-session-2.png"
-                alt="Масаж спини — робота з м’язами"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="./images/gallery/massage-session-2.webp"
+                />
+                <img
+                  src="./images/gallery/massage-session-2.png"
+                  alt="Масаж спини — робота з м’язами"
+                  width="742"
+                  height="869"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <div
               class="gallery-item gallery-item--zoomable"
@@ -183,11 +315,20 @@
               role="button"
               aria-label="Відкрити фото збільшеним"
             >
-              <img
-                src="./images/gallery/acupuncture-1.png"
-                alt="Голкотерапія — робота з живота"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="./images/gallery/acupuncture-1.webp"
+                />
+                <img
+                  src="./images/gallery/acupuncture-1.png"
+                  alt="Голкотерапія — робота з живота"
+                  width="768"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <div
               class="gallery-item gallery-item--zoomable"
@@ -195,11 +336,20 @@
               role="button"
               aria-label="Відкрити фото збільшеним"
             >
-              <img
-                src="./images/gallery/acupuncture-2.png"
-                alt="Голкотерапія — акупунктурні точки"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="./images/gallery/acupuncture-2.webp"
+                />
+                <img
+                  src="./images/gallery/acupuncture-2.png"
+                  alt="Голкотерапія — акупунктурні точки"
+                  width="768"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <div
               class="gallery-item gallery-item--zoomable"
@@ -207,11 +357,20 @@
               role="button"
               aria-label="Відкрити фото збільшеним"
             >
-              <img
-                src="./images/gallery/medical-certificate.png"
-                alt="Сертифікат медичного масажу, International Association of Non-Traditional Medicine, 2017"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="./images/gallery/medical-certificate.webp"
+                />
+                <img
+                  src="./images/gallery/medical-certificate.png"
+                  alt="Сертифікат медичного масажу, International Association of Non-Traditional Medicine, 2017"
+                  width="472"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <div
               class="gallery-item gallery-item--zoomable"
@@ -219,11 +378,62 @@
               role="button"
               aria-label="Відкрити фото збільшеним"
             >
-              <img
-                src="./images/gallery/gallery-moment.png"
-                alt="Сімейний момент"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="./images/gallery/gallery-moment.webp"
+                />
+                <img
+                  src="./images/gallery/gallery-moment.png"
+                  alt="Сімейний момент"
+                  width="701"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+            <div
+              class="gallery-item gallery-item--zoomable"
+              tabindex="0"
+              role="button"
+              aria-label="Відкрити фото збільшеним"
+            >
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="./images/gallery/massage-session-3.webp"
+                />
+                <img
+                  src="./images/gallery/massage-session-3.png"
+                  alt="Масаж спини під час сеансу в кабінеті"
+                  width="723"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+            <div
+              class="gallery-item gallery-item--zoomable"
+              tabindex="0"
+              role="button"
+              aria-label="Відкрити фото збільшеним"
+            >
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="./images/gallery/auricular-acupuncture.webp"
+                />
+                <img
+                  src="./images/gallery/auricular-acupuncture.png"
+                  alt="Вушна акупунктура — іглиці на вусі"
+                  width="768"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
           </div>
         </div>
@@ -348,7 +558,15 @@
           ×
         </button>
         <div class="service-modal__media">
-          <img class="service-modal__img" src="" alt="" />
+          <img
+            class="service-modal__img"
+            src=""
+            alt=""
+            width="1024"
+            height="682"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         <div class="service-modal__body">
           <h3 id="service-modal-title" class="service-modal__title"></h3>
@@ -463,11 +681,18 @@
         >
           ×
         </button>
-        <img class="gallery-lightbox__img" src="" alt="" />
+        <img
+          class="gallery-lightbox__img"
+          src=""
+          alt=""
+          width="768"
+          height="1024"
+          loading="lazy"
+          decoding="async"
+        />
         <figcaption class="gallery-lightbox__caption"></figcaption>
       </figure>
     </div>
 
-    <script src="./script.js"></script>
   </body>
 </html>
