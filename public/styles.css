@@ -791,11 +791,6 @@ body.lightbox-open {
   color: #8b1a1a;
 }
 
-.callback-form__msg--success {
-  color: #3d6b52;
-  font-weight: 600;
-}
-
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1177,6 +1172,89 @@ body.lightbox-open {
   text-align: left;
 }
 
+/* Подяка після «Отримати дзвінок» */
+.callback-thanks-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 118;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-right: max(12px, env(safe-area-inset-right));
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  padding-left: max(12px, env(safe-area-inset-left));
+}
+
+.callback-thanks-modal[hidden] {
+  display: none;
+}
+
+.callback-thanks-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.callback-thanks-modal__panel {
+  position: relative;
+  z-index: 1;
+  width: min(92vw, 420px);
+  padding: 36px 28px 32px;
+  text-align: center;
+  background: #f7efe5;
+  border-radius: 20px;
+  border: 1px solid rgba(166, 124, 82, 0.3);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+}
+
+.callback-thanks-modal__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: #2b2b2b;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.callback-thanks-modal__close:hover {
+  background: #ffffff;
+  transform: scale(1.05);
+}
+
+.callback-thanks-modal__title {
+  margin: 0 36px 16px 0;
+  font-size: clamp(22px, 4vw, 26px);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #3d6b52;
+}
+
+.callback-thanks-modal__text {
+  margin: 0 0 14px;
+  font-size: 17px;
+  line-height: 1.55;
+  color: #2b2b2b;
+}
+
+.callback-thanks-modal__hint {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #777777;
+}
+
 body.modal-open {
   overflow: hidden;
 }
@@ -1538,6 +1616,25 @@ button.cta-btn {
   }
 
   .booking-modal__close {
+    right: max(10px, env(safe-area-inset-right));
+  }
+
+  .callback-thanks-modal {
+    align-items: flex-end;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .callback-thanks-modal__panel {
+    width: 100%;
+    max-width: none;
+    border-radius: 20px 20px 0 0;
+    padding: 28px max(20px, env(safe-area-inset-left)) max(28px, env(safe-area-inset-bottom))
+      max(20px, env(safe-area-inset-right));
+  }
+
+  .callback-thanks-modal__close {
     right: max(10px, env(safe-area-inset-right));
   }
 

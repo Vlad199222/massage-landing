@@ -1,6 +1,38 @@
 document.addEventListener("DOMContentLoaded", () => {
   const MOBILE_NAV_MAX = 768;
 
+  let callbackThanksTimerId = null;
+
+  function closeCallbackThanksModal() {
+    if (callbackThanksTimerId !== null) {
+      clearTimeout(callbackThanksTimerId);
+      callbackThanksTimerId = null;
+    }
+    const el = document.getElementById("callback-thanks-modal");
+    if (!el || el.hidden) return;
+    el.hidden = true;
+    document.body.classList.remove("modal-open");
+  }
+
+  function openCallbackThanksModal() {
+    const el = document.getElementById("callback-thanks-modal");
+    if (!el) return;
+    closeCallbackThanksModal();
+    el.hidden = false;
+    document.body.classList.add("modal-open");
+    el.querySelector(".callback-thanks-modal__close")?.focus();
+    callbackThanksTimerId = window.setTimeout(() => {
+      closeCallbackThanksModal();
+    }, 15000);
+  }
+
+  document.getElementById("callback-thanks-modal")?.querySelectorAll("[data-callback-thanks-close]").forEach((node) => {
+    node.addEventListener("click", (e) => {
+      e.preventDefault();
+      closeCallbackThanksModal();
+    });
+  });
+
   const siteHeader = document.querySelector(".top-bar");
   const burgerBtn = document.getElementById("burger-btn");
   const primaryNav = document.getElementById("primary-navigation");
@@ -378,6 +410,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
+    const thanksM = document.getElementById("callback-thanks-modal");
+    if (thanksM && !thanksM.hidden) {
+      closeCallbackThanksModal();
+      return;
+    }
     if (isBookingOpen()) {
       closeBookingModal();
       return;
@@ -398,7 +435,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const callbackForm = document.getElementById("callback-form");
   const callbackPhone = document.getElementById("callback-phone");
   const callbackErr = document.getElementById("callback-form-error");
-  const callbackOk = document.getElementById("callback-form-success");
 
   function callbackDigitsCount(v) {
     return String(v || "").replace(/\D/g, "").length;
@@ -411,7 +447,6 @@ document.addEventListener("DOMContentLoaded", () => {
       callbackErr.hidden = true;
       callbackErr.textContent = "";
     }
-    if (callbackOk) callbackOk.hidden = true;
 
     const phone = callbackPhone.value.trim();
     if (callbackDigitsCount(phone) < 10) {
@@ -457,7 +492,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       callbackForm.reset();
-      if (callbackOk) callbackOk.hidden = false;
+      openCallbackThanksModal();
     } catch {
       if (callbackErr) {
         callbackErr.textContent = "Немає зв’язку з сервером. Перевірте інтернет.";
