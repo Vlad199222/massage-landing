@@ -319,6 +319,63 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const galleryLightbox = document.getElementById("gallery-lightbox");
+  const galleryLightboxImg = galleryLightbox?.querySelector(".gallery-lightbox__img");
+  const galleryLightboxCaption = galleryLightbox?.querySelector(".gallery-lightbox__caption");
+  let galleryLightboxLastFocus = null;
+
+  function isGalleryLightboxOpen() {
+    return Boolean(galleryLightbox && !galleryLightbox.hidden);
+  }
+
+  function openGalleryLightbox(src, alt) {
+    if (!galleryLightbox || !galleryLightboxImg) return;
+    galleryLightboxLastFocus = document.activeElement;
+    galleryLightboxImg.src = src;
+    galleryLightboxImg.alt = alt || "";
+    if (galleryLightboxCaption) {
+      galleryLightboxCaption.textContent = alt || "";
+    }
+    galleryLightbox.hidden = false;
+    document.body.classList.add("lightbox-open");
+    galleryLightbox.querySelector(".gallery-lightbox__close")?.focus();
+  }
+
+  function closeGalleryLightbox() {
+    if (!galleryLightbox || !galleryLightboxImg) return;
+    galleryLightbox.hidden = true;
+    galleryLightboxImg.removeAttribute("src");
+    galleryLightboxImg.alt = "";
+    if (galleryLightboxCaption) {
+      galleryLightboxCaption.textContent = "";
+    }
+    document.body.classList.remove("lightbox-open");
+    if (galleryLightboxLastFocus && typeof galleryLightboxLastFocus.focus === "function") {
+      galleryLightboxLastFocus.focus();
+    }
+    galleryLightboxLastFocus = null;
+  }
+
+  document.querySelectorAll(".gallery-item--zoomable").forEach((item) => {
+    const img = item.querySelector("img");
+    if (!img) return;
+    const open = () => openGalleryLightbox(img.currentSrc || img.src, img.alt || "");
+    item.addEventListener("click", open);
+    item.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        open();
+      }
+    });
+  });
+
+  galleryLightbox?.querySelectorAll("[data-lightbox-close]").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      closeGalleryLightbox();
+    });
+  });
+
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
     if (isBookingOpen()) {
@@ -327,6 +384,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (modal && !modal.hidden) {
       closeServiceModal();
+      return;
+    }
+    if (isGalleryLightboxOpen()) {
+      closeGalleryLightbox();
       return;
     }
     if (siteHeader?.classList.contains("nav-open")) {
