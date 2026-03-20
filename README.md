@@ -16,6 +16,7 @@ npm start
 
 - `server.js` — локальний HTTP-сервер (`npm start`)
 - `api/booking.js` — **Vercel** Serverless для `POST /api/booking`
+- `api/callback.js` — **Vercel** Serverless для `POST /api/callback` (швидкий дзвінок, лише телефон у Telegram)
 - `lib/booking-logic.js` — спільна логіка заявки + Telegram
 - `public/` — HTML, CSS, JS, зображення
 
@@ -69,7 +70,7 @@ git push -u origin main
 
 ## Деплой на [Vercel](https://vercel.com)
 
-На Vercel **не виконується** довготривалий `server.js`. Сайт з `public/` роздається як статика, а **`POST /api/booking`** обробляє файл **`api/booking.js`**.
+На Vercel **не виконується** довготривалий `server.js`. Сайт з `public/` роздається як статика; **`POST /api/booking`** (`api/booking.js`) та **`POST /api/callback`** (`api/callback.js`) шлють повідомлення в Telegram (ті самі `TELEGRAM_*` змінні).
 
 1. Імпорт репозиторію в Vercel (корінь репо — **не** вказуй Root Directory = `public`, інакше зникне `/api`).
 2. **Settings** → **Environment Variables** (для Production / Preview за потреби):

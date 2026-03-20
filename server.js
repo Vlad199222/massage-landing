@@ -3,7 +3,11 @@ require("dotenv").config();
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const { validateBookingBody, sendTelegramMessage } = require("./lib/booking-logic");
+const {
+  validateBookingBody,
+  validateCallbackBody,
+  sendTelegramMessage
+} = require("./lib/booking-logic");
 
 const PORT = Number(process.env.PORT) || 3001;
 const HOST = process.env.HOST || "0.0.0.0";
@@ -132,6 +136,14 @@ const server = http.createServer((req, res) => {
 
   if (req.method === "POST" && u.pathname === "/api/booking") {
     handleBooking(req, res).catch((e) => {
+      console.error(e);
+      json(res, 500, { ok: false, error: "Внутрішня помилка сервера." });
+    });
+    return;
+  }
+
+  if (req.method === "POST" && u.pathname === "/api/callback") {
+    handleCallback(req, res).catch((e) => {
       console.error(e);
       json(res, 500, { ok: false, error: "Внутрішня помилка сервера." });
     });

@@ -32,10 +32,9 @@
           aria-label="Головна навігація"
         >
           <a href="#home">Головна</a>
-          <a href="#certificates">Сертифікати</a>
-          <a href="#prices">Ціни</a>
           <a href="#services">Послуги</a>
           <a href="#gallery">Фотогалерея</a>
+          <a href="#callback">Дзвінок</a>
         </nav>
         <div class="top-contact">
           <div class="phone-row">
@@ -73,20 +72,6 @@
               Записатися зараз
             </button>
           </div>
-        </div>
-      </section>
-
-      <section id="certificates" class="info-section">
-        <div class="section-container">
-          <h2>Сертифікати</h2>
-          <p>Розділ із сертифікатами буде доданий наступним кроком.</p>
-        </div>
-      </section>
-
-      <section id="prices" class="info-section">
-        <div class="section-container">
-          <h2>Ціни</h2>
-          <p>Актуальна вартість послуг вказана в блоці «Послуги» нижче.</p>
         </div>
       </section>
 
@@ -241,6 +226,35 @@
               />
             </div>
           </div>
+        </div>
+      </section>
+
+      <section id="callback" class="callback-section" aria-labelledby="callback-title">
+        <div class="section-container">
+          <h2 id="callback-title">Швидкий дзвінок від спеціаліста</h2>
+          <p class="callback-intro">
+            Залиште номер телефону — майстер отримає заявку в Telegram і зможе передзвонити вам.
+          </p>
+          <form id="callback-form" class="callback-form" novalidate>
+            <div class="callback-form__row">
+              <label class="visually-hidden" for="callback-phone">Номер телефону</label>
+              <input
+                id="callback-phone"
+                name="phone"
+                class="callback-form__input"
+                type="tel"
+                autocomplete="tel"
+                inputmode="tel"
+                placeholder="+380 63 631 62 52"
+                maxlength="40"
+              />
+              <button type="submit" class="callback-form__submit">Отримати дзвінок</button>
+            </div>
+            <p class="callback-form__msg callback-form__msg--error" id="callback-form-error" hidden role="alert"></p>
+            <p class="callback-form__msg callback-form__msg--success" id="callback-form-success" hidden role="status">
+              Дякуємо! Заявку надіслано — очікуйте дзвінка найближчим часом.
+            </p>
+          </form>
         </div>
       </section>
     </main>

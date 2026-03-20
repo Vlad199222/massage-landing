@@ -395,6 +395,82 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  const callbackForm = document.getElementById("callback-form");
+  const callbackPhone = document.getElementById("callback-phone");
+  const callbackErr = document.getElementById("callback-form-error");
+  const callbackOk = document.getElementById("callback-form-success");
+
+  function callbackDigitsCount(v) {
+    return String(v || "").replace(/\D/g, "").length;
+  }
+
+  callbackForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!callbackPhone || !callbackForm) return;
+    if (callbackErr) {
+      callbackErr.hidden = true;
+      callbackErr.textContent = "";
+    }
+    if (callbackOk) callbackOk.hidden = true;
+
+    const phone = callbackPhone.value.trim();
+    if (callbackDigitsCount(phone) < 10) {
+      if (callbackErr) {
+        callbackErr.textContent = "Введіть коректний номер (наприклад, +380 …).";
+        callbackErr.hidden = false;
+      }
+      return;
+    }
+
+    const submitBtn = callbackForm.querySelector('button[type="submit"]');
+    const prevLabel = submitBtn ? submitBtn.textContent : "";
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Надсилаємо…";
+    }
+
+    try {
+      const res = await fetch("/api/callback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=UTF-8" },
+        body: JSON.stringify({ phone })
+      });
+      let data = {};
+      try {
+        data = await res.json();
+      } catch {
+        /* ignore */
+      }
+
+      if (!res.ok || !data.ok) {
+        let msg =
+          (data && data.error) ||
+          (res.status === 503
+            ? "Заявки тимчасово недоступні. Зателефонуйте самі."
+            : "Не вдалося надіслати.");
+        if (data && data.hint) msg += ` ${data.hint}`;
+        if (callbackErr) {
+          callbackErr.textContent = msg;
+          callbackErr.hidden = false;
+        }
+        return;
+      }
+
+      callbackForm.reset();
+      if (callbackOk) callbackOk.hidden = false;
+    } catch {
+      if (callbackErr) {
+        callbackErr.textContent = "Немає зв’язку з сервером. Перевірте інтернет.";
+        callbackErr.hidden = false;
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = prevLabel || "Отримати дзвінок";
+      }
+    }
+  });
+
   const SOCIAL_RAIL_STORAGE = "massageSocialRailOpen";
   const rail = document.getElementById("social-rail");
   const railClose = document.getElementById("social-rail-close");

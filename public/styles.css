@@ -497,21 +497,6 @@ body.nav-menu-open {
   padding: 0 12px;
 }
 
-.info-section {
-  padding: 30px 24px 0;
-}
-
-.info-section h2 {
-  margin: 0 0 8px;
-  font-size: 32px;
-}
-
-.info-section p {
-  margin: 0;
-  color: #5f5f5f;
-  font-size: 17px;
-}
-
 .services-section {
   padding: 48px 32px 72px;
 }
@@ -688,6 +673,123 @@ body.nav-menu-open {
 
 body.lightbox-open {
   overflow: hidden;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.callback-section {
+  padding: 48px 32px 72px;
+  border-top: 1px solid rgba(111, 175, 143, 0.22);
+  background: linear-gradient(180deg, transparent 0%, rgba(239, 226, 210, 0.45) 42%, transparent 100%);
+}
+
+.callback-section h2 {
+  margin: 0 0 12px;
+  font-size: 36px;
+  color: var(--text-main);
+}
+
+.callback-intro {
+  margin: 0 0 24px;
+  max-width: 640px;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #5f5f5f;
+}
+
+.callback-form__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 12px;
+  max-width: 720px;
+}
+
+.callback-form__input {
+  flex: 1 1 220px;
+  min-width: 0;
+  padding: 14px 16px;
+  font-size: 16px;
+  font-family: inherit;
+  color: #2b2b2b;
+  background: #ffffff;
+  border: 1px solid rgba(166, 124, 82, 0.4);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.callback-form__input::placeholder {
+  color: #9a9a9a;
+}
+
+.callback-form__input:hover {
+  border-color: rgba(111, 175, 143, 0.55);
+}
+
+.callback-form__input:focus {
+  outline: none;
+  border-color: #6faf8f;
+  box-shadow: 0 0 0 3px rgba(111, 175, 143, 0.25);
+}
+
+/* Кнопка в тому ж візуальному стилі, що й поле */
+.callback-form__submit {
+  flex: 0 0 auto;
+  padding: 14px 22px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  line-height: 1.25;
+  color: var(--text-main);
+  background: #ffffff;
+  border: 1px solid rgba(166, 124, 82, 0.4);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.callback-form__submit:hover {
+  background: var(--button-light);
+  border-color: var(--button-main);
+  color: #1f1f1f;
+}
+
+.callback-form__submit:focus-visible {
+  outline: 3px solid rgba(111, 175, 143, 0.55);
+  outline-offset: 2px;
+}
+
+.callback-form__submit:disabled {
+  opacity: 0.72;
+  cursor: wait;
+  transform: none;
+}
+
+.callback-form__msg {
+  margin: 14px 0 0;
+  max-width: 720px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.callback-form__msg--error {
+  color: #8b1a1a;
+}
+
+.callback-form__msg--success {
+  color: #3d6b52;
+  font-weight: 600;
 }
 
 .services-grid {
@@ -1278,14 +1380,6 @@ button.cta-btn {
     padding-right: max(12px, env(safe-area-inset-right));
   }
 
-  .info-section {
-    padding: 18px max(16px, env(safe-area-inset-left)) 0 max(16px, env(safe-area-inset-right));
-  }
-
-  .info-section h2 {
-    font-size: 28px;
-  }
-
   .services-section {
     padding: 32px max(16px, env(safe-area-inset-left)) 48px max(16px, env(safe-area-inset-right));
   }
@@ -1318,6 +1412,24 @@ button.cta-btn {
   .gallery-lightbox__close {
     top: max(8px, env(safe-area-inset-top));
     right: max(8px, env(safe-area-inset-right));
+  }
+
+  .callback-section {
+    padding: 36px max(16px, env(safe-area-inset-left)) 56px max(16px, env(safe-area-inset-right));
+  }
+
+  .callback-section h2 {
+    font-size: 30px;
+  }
+
+  .callback-form__row {
+    flex-direction: column;
+  }
+
+  .callback-form__input,
+  .callback-form__submit {
+    width: 100%;
+    flex: none;
   }
 
   .service-modal {
@@ -1468,9 +1580,9 @@ button.cta-btn {
     padding-bottom: calc(180px + env(safe-area-inset-bottom));
   }
 
-  .info-section h2,
   .services-section h2,
-  .gallery-section h2 {
+  .gallery-section h2,
+  .callback-section h2 {
     font-size: 26px;
   }
 }
