@@ -12,10 +12,17 @@
       .thank-page {
         min-height: 100vh;
         display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+          max(12px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+      }
+      .thank-page__main {
+        flex: 1;
+        display: flex;
         align-items: center;
         justify-content: center;
-        padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
-          max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+        width: 100%;
       }
       .thank-card {
         width: 100%;
@@ -47,14 +54,24 @@
   </head>
   <body>
     <div class="thank-page">
-      <div class="thank-card">
-        <h1>Дякуємо!</h1>
-        <p>
-          Вашу заявку надіслано. Майстер отримає сповіщення в Telegram і зможе з вами
-          зв’язатися.
-        </p>
-        <a class="cta-btn" href="./index.html">На головну</a>
+      <div class="thank-page__main">
+        <div class="thank-card">
+          <h1>Дякуємо!</h1>
+          <p>
+            Вашу заявку надіслано. Майстер отримає сповіщення в Telegram і зможе з вами
+            зв’язатися.
+          </p>
+          <a class="cta-btn" href="./index.html">На головну</a>
+        </div>
       </div>
+      <footer class="site-footer site-footer--thank" role="contentinfo">
+        <div class="section-container site-footer__inner site-footer__inner--center">
+          <p class="site-footer__copy">© 2026 Масаж та голкотерапія, м. Вінниця.</p>
+          <nav class="site-footer__nav" aria-label="Юридична інформація">
+            <a href="./privacy.html">Політика конфіденційності</a>
+          </nav>
+        </div>
+      </footer>
     </div>
   </body>
 </html>
