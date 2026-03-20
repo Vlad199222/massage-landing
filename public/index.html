@@ -165,34 +165,78 @@
         <div class="section-container">
           <h2>Фотогалерея</h2>
           <p class="gallery-intro">
-            Фото з кабінету: масаж і голкотерапія — реальні моменти з сеансів.
+            Фото з кабінету, сертифікати, масаж і голкотерапія — реальні моменти з роботи.
           </p>
           <div class="gallery-grid">
-            <div class="gallery-item">
+            <div
+              class="gallery-item gallery-item--zoomable"
+              tabindex="0"
+              role="button"
+              aria-label="Відкрити фото збільшеним"
+            >
               <img
                 src="./images/gallery/massage-session-1.png"
                 alt="Масаж спини у кабінеті"
                 loading="lazy"
               />
             </div>
-            <div class="gallery-item">
+            <div
+              class="gallery-item gallery-item--zoomable"
+              tabindex="0"
+              role="button"
+              aria-label="Відкрити фото збільшеним"
+            >
               <img
                 src="./images/gallery/massage-session-2.png"
                 alt="Масаж спини — робота з м’язами"
                 loading="lazy"
               />
             </div>
-            <div class="gallery-item">
+            <div
+              class="gallery-item gallery-item--zoomable"
+              tabindex="0"
+              role="button"
+              aria-label="Відкрити фото збільшеним"
+            >
               <img
                 src="./images/gallery/acupuncture-1.png"
                 alt="Голкотерапія — робота з живота"
                 loading="lazy"
               />
             </div>
-            <div class="gallery-item">
+            <div
+              class="gallery-item gallery-item--zoomable"
+              tabindex="0"
+              role="button"
+              aria-label="Відкрити фото збільшеним"
+            >
               <img
                 src="./images/gallery/acupuncture-2.png"
                 alt="Голкотерапія — акупунктурні точки"
+                loading="lazy"
+              />
+            </div>
+            <div
+              class="gallery-item gallery-item--zoomable"
+              tabindex="0"
+              role="button"
+              aria-label="Відкрити фото збільшеним"
+            >
+              <img
+                src="./images/gallery/medical-certificate.png"
+                alt="Сертифікат медичного масажу, International Association of Non-Traditional Medicine, 2017"
+                loading="lazy"
+              />
+            </div>
+            <div
+              class="gallery-item gallery-item--zoomable"
+              tabindex="0"
+              role="button"
+              aria-label="Відкрити фото збільшеним"
+            >
+              <img
+                src="./images/gallery/gallery-moment.png"
+                alt="Сімейний момент"
                 loading="lazy"
               />
             </div>
@@ -362,6 +406,29 @@
           </button>
         </form>
       </div>
+    </div>
+
+    <div
+      id="gallery-lightbox"
+      class="gallery-lightbox"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-label="Фото у великому форматі"
+    >
+      <div class="gallery-lightbox__backdrop" data-lightbox-close tabindex="-1"></div>
+      <figure class="gallery-lightbox__figure">
+        <button
+          type="button"
+          class="gallery-lightbox__close"
+          data-lightbox-close
+          aria-label="Закрити"
+        >
+          ×
+        </button>
+        <img class="gallery-lightbox__img" src="" alt="" />
+        <figcaption class="gallery-lightbox__caption"></figcaption>
+      </figure>
     </div>
 
     <script src="./script.js"></script>
