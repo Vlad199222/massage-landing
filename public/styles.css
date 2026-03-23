@@ -1699,15 +1699,16 @@ body.modal-open {
 }
 
 .hero h1 {
-  margin: 0 0 16px;
-  font-size: 48px;
+  margin: 0 0 18px;
+  font-size: clamp(40px, 5.2vw, 58px);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.18;
 }
 
 .hero p {
-  margin: 0 0 28px;
-  font-size: 18px;
+  margin: 0 0 32px;
+  font-size: clamp(18px, 2.2vw, 22px);
+  line-height: 1.55;
   color: #555555;
 }
 
@@ -1723,10 +1724,10 @@ button.cta-btn {
   text-decoration: none;
   color: #ffffff;
   background-color: #9b6a43;
-  padding: 16px 28px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 16px;
+  padding: 20px 36px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: clamp(17px, 1.6vw, 20px);
   transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -1879,21 +1880,22 @@ button.cta-btn {
   }
 
   .hero h1 {
-    font-size: clamp(26px, 7vw, 32px);
+    font-size: clamp(28px, 7.5vw, 38px);
   }
 
   .hero p {
-    font-size: 16px;
+    font-size: clamp(17px, 4.2vw, 20px);
   }
 
   .cta-btn {
     display: block;
     width: 100%;
-    max-width: 320px;
+    max-width: 360px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    padding: 14px 22px;
+    padding: 18px 26px;
+    font-size: clamp(17px, 4.2vw, 19px);
   }
 
   .section-container {
