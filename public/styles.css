@@ -1698,6 +1698,14 @@ body.modal-open {
   overflow: hidden;
 }
 
+/* Додатково до position:fixed на body у script.js — гасить «резиновий» скрол на iOS */
+html.scroll-locked,
+body.scroll-locked {
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
 .hero h1 {
   margin: 0 0 18px;
   font-size: clamp(40px, 5.2vw, 58px);

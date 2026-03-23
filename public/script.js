@@ -1,6 +1,44 @@
 document.addEventListener("DOMContentLoaded", () => {
   const MOBILE_NAV_MAX = 768;
 
+  /** Блокує прокрутку сторінки під модалками (overflow:hidden недостатньо на iOS) */
+  let bodyScrollLockY = 0;
+  let bodyScrollLockActive = false;
+
+  function updateBodyScrollLock() {
+    const bookingEl = document.getElementById("booking-modal");
+    const serviceEl = document.getElementById("service-modal");
+    const thanksEl = document.getElementById("callback-thanks-modal");
+    const lightboxEl = document.getElementById("gallery-lightbox");
+    const anyOpen =
+      (bookingEl && !bookingEl.hidden) ||
+      (serviceEl && !serviceEl.hidden) ||
+      (thanksEl && !thanksEl.hidden) ||
+      (lightboxEl && !lightboxEl.hidden);
+
+    if (anyOpen && !bodyScrollLockActive) {
+      bodyScrollLockActive = true;
+      bodyScrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
+      document.documentElement.classList.add("scroll-locked");
+      document.body.classList.add("scroll-locked");
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${bodyScrollLockY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+    } else if (!anyOpen && bodyScrollLockActive) {
+      bodyScrollLockActive = false;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+      document.documentElement.classList.remove("scroll-locked");
+      document.body.classList.remove("scroll-locked");
+      window.scrollTo(0, bodyScrollLockY);
+    }
+  }
+
   let callbackThanksTimerId = null;
 
   function closeCallbackThanksModal() {
@@ -12,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!el || el.hidden) return;
     el.hidden = true;
     document.body.classList.remove("modal-open");
+    updateBodyScrollLock();
   }
 
   function openCallbackThanksModal() {
@@ -20,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     closeCallbackThanksModal();
     el.hidden = false;
     document.body.classList.add("modal-open");
+    updateBodyScrollLock();
     el.querySelector(".callback-thanks-modal__close")?.focus();
     callbackThanksTimerId = window.setTimeout(() => {
       closeCallbackThanksModal();
@@ -187,6 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
       bookingLastFocus.focus();
     }
     bookingLastFocus = null;
+    updateBodyScrollLock();
   }
 
   function openBookingModal() {
@@ -198,6 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
     bookingForm.reset();
     bookingModal.hidden = false;
     document.body.classList.add("modal-open");
+    updateBodyScrollLock();
     nameInput?.focus();
   }
 
@@ -324,6 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const closeBtn = modal.querySelector(".service-modal__close");
       if (closeBtn) closeBtn.focus();
+      updateBodyScrollLock();
     }
 
     closeServiceModal = function closeServiceModalImpl() {
@@ -337,6 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (lastFocus && typeof lastFocus.focus === "function") {
         lastFocus.focus();
       }
+      updateBodyScrollLock();
     };
 
     document.querySelectorAll(".service-card").forEach((card) => {
@@ -383,6 +427,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     galleryLightbox.hidden = false;
     document.body.classList.add("lightbox-open");
+    updateBodyScrollLock();
     galleryLightbox.querySelector(".gallery-lightbox__close")?.focus();
   }
 
@@ -396,6 +441,7 @@ document.addEventListener("DOMContentLoaded", () => {
       galleryLightboxCaption.textContent = "";
     }
     document.body.classList.remove("lightbox-open");
+    updateBodyScrollLock();
     if (galleryLightboxLastFocus && typeof galleryLightboxLastFocus.focus === "function") {
       galleryLightboxLastFocus.focus();
     }
